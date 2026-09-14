@@ -1459,9 +1459,45 @@ const GUIDE = {
 
   trains: {
     intro:
-      "Leonardo Express Fiumicino↔Termini, 32 min, andenes 23–24, cada 15 min. 14€/persona. Desde casa: ~11 min a Termini + 10–15 min logística. Minigruppi 40€ si sois 4.",
+      "Leonardo Express Fiumicino↔Termini, 32 min, andenes 23–24 en Termini (en Fiumicino suele salir de vías 2 o 3), cada 15 min. 14€/persona. Desde casa: ~11 min a Termini + 10–15 min logística. Minigruppi 40€ si sois 4.",
     purchase:
       "trenitalia.com, app, taquillas, Tap&Tap en torno ‘Gate Leonardo’. Cambios gratis si compráis antes.",
+    fromPlane: {
+      title: "Del avión al Leonardo Express",
+      subtitle: "Martes 15 · Paso a paso en Fiumicino",
+      steps: [
+        {
+          title: "Salir de la terminal (Llegadas)",
+          text: "Sigue el flujo hacia la salida y recogida de equipajes (Baggage Claim / Uscita). Como no lleváis maletas en bodega, pasad de largo las cintas y salid por las puertas automáticas a la zona pública de Llegadas.",
+        },
+        {
+          title: "Seguir los carteles del tren",
+          text: "Nada más salir a la zona pública, mirad arriba: carteles amarillos brillantes con icono de tren o “Stazione Ferroviaria / Train”. El aeropuerto está unido a la estación por pasillos internos. Subid escaleras mecánicas o ascensor a la planta superior y seguid las pasarelas cubiertas con cintas. Hay carteles cada pocos metros.",
+        },
+        {
+          title: "Estación y billete (14 €/persona)",
+          text: "Tras ~5–7 min llegáis al vestíbulo de la estación. Opciones:",
+          bullets: [
+            "La más rápida — Tap & Go: no compréis billete. En los tornos pasad móvil o tarjeta contactless; cobra 14 €. Si vais dos, cada uno con su móvil/tarjeta.",
+            "Máquinas Trenitalia (rojas/grises): pantalla en español; Fiumicino Aeroporto → Roma Termini; tarjeta o efectivo.",
+            "Taquilla o Tabacchi junto a los tornos: billete en mano.",
+          ],
+        },
+        {
+          title: "¿Hay que validar? (muy importante)",
+          text: "Según cómo compréis:",
+          bullets: [
+            "Tap & Go en el torno: NO validar. El torno registra la entrada.",
+            "Billete digital de máquina (con hora): ya viene pre-validado; solo escanead el QR en el torno. No hace falta máquina de sellado.",
+            "Billete de papel sin hora (estanco): SÍ obligatorio sellar en las maquinitas verdes/grises ovaladas antes de la vía. Sin sellar, multa de +50 €.",
+          ],
+        },
+        {
+          title: "Subir al tren correcto",
+          text: "El Leonardo Express suele salir de las vías 2 o 3 (Binario 2 / 3). Mirad el panel del próximo tren a Roma Termini: es el directo rojo y blanco, sin paradas. Subid, dejad la mochila en el maletero y en 32 min exactos llegáis a Termini.",
+        },
+      ],
+    },
     arrival: {
       date: "Martes 15",
       label: "Ida (Fiumicino → Termini → casa)",

@@ -740,6 +740,38 @@
       )
       .join("");
 
+    const fromPlane = GUIDE.trains.fromPlane;
+    const fromPlaneBlock = fromPlane
+      ? `
+      <section>
+        <h2 class="font-display text-2xl">${escapeHtml(fromPlane.title)}</h2>
+        ${fromPlane.subtitle ? `<p class="text-sm text-porphyry font-medium mt-1">${escapeHtml(fromPlane.subtitle)}</p>` : ""}
+        <ol class="mt-4 space-y-4 list-none p-0 m-0">
+          ${(fromPlane.steps || [])
+            .map(
+              (step, i) => `
+            <li class="p-5 rounded-2xl bg-white/80 border border-ink/5">
+              <div class="flex gap-3 items-start">
+                <span class="shrink-0 w-8 h-8 rounded-full bg-porphyry text-white text-sm font-bold flex items-center justify-center">${i + 1}</span>
+                <div class="min-w-0">
+                  <h3 class="font-semibold text-ink">${escapeHtml(step.title)}</h3>
+                  <p class="text-[15px] leading-relaxed text-ink/85 mt-2">${escapeHtml(step.text)}</p>
+                  ${
+                    step.bullets && step.bullets.length
+                      ? `<ul class="mt-3 space-y-2 text-sm text-ink/80 list-disc pl-5 leading-relaxed">${step.bullets
+                          .map((b) => `<li>${escapeHtml(b)}</li>`)
+                          .join("")}</ul>`
+                      : ""
+                  }
+                </div>
+              </div>
+            </li>`
+            )
+            .join("")}
+        </ol>
+      </section>`
+      : "";
+
     return `
       <div class="space-y-8">
         <section>
@@ -747,6 +779,7 @@
           <p class="text-[15px] leading-relaxed text-ink/80 mt-3">${escapeHtml(GUIDE.trains.intro)}</p>
           <p class="text-sm text-ink/65 mt-2">${escapeHtml(GUIDE.trains.purchase)}</p>
         </section>
+        ${fromPlaneBlock}
         <section>
           <h3 class="font-display text-lg">${escapeHtml(GUIDE.trains.arrival.label)}</h3>
           <ul class="list-none p-0 mt-3">${arr}</ul>
