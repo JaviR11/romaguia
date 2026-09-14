@@ -1504,19 +1504,45 @@ const GUIDE = {
   metro: [
     {
       title: "Casa → Cavour (línea B)",
-      text: "3–5 min andando desde Via dei Capocci, 86 — más cerca que metro Termini.",
+      text: "Estación más cercana a Via dei Capocci, 86: Cavour (línea B), 3–5 min andando — más cerca que la entrada de metro de Termini.",
     },
     {
-      title: "Casa → Vaticano",
-      text: "Cavour → Termini → línea A Ottaviano + 8–10 min andando ≈ 30–35 min puerta a puerta.",
+      title: "Casa → Vaticano (Ottaviano)",
+      text: "Cavour → Termini (cambio a línea A) → Ottaviano. ~20–25 min en metro + 8–10 min andando hasta la entrada de los museos ≈ 30–35 min puerta a puerta.",
     },
     {
-      title: "Casa → Piazza del Popolo",
-      text: "Mismo cambio en Termini, 4 paradas en A hasta Flaminio + 2 min ≈ 20–25 min.",
+      title: "Casa → Piazza del Popolo (Flaminio)",
+      text: "Mismo cambio en Termini, 4 paradas más en línea A hasta Flaminio. ~15–20 min en metro + 2 min andando ≈ 20–25 min puerta a puerta.",
     },
     {
       title: "Trastevere",
-      text: "Metro NO llega. Tranvía 8 (B hasta Piramide + tranvía), bus H desde Termini, o andar 20–25 min desde Castel Sant'Angelo.",
+      text: "El metro NO llega a Trastevere. Alternativas: tranvía 8 (metro B hasta Piramide, luego tranvía hasta Belli/Mastai, ~25–30 min), autobús H directo desde Termini (parada Via Manara, ~20 min), o andar 20–25 min desde Castel Sant'Angelo (como el jueves).",
+    },
+  ],
+
+  metroRoutes: [
+    {
+      id: "monti-vaticano",
+      title: "Monti → Vaticano (paso a paso)",
+      subtitle: "Desde Via dei Capocci hasta Ottaviano / San Pedro",
+      steps: [
+        "Camina a Metro Cavour (línea B, azul), 3–5 min desde casa.",
+        "Línea B: súbete dirección Rebibbia o Jonio y viaja solo 1 parada hasta Termini.",
+        "Transbordo en Termini: no salgas de los tornos. Sigue los carteles naranjas de Línea A por los pasillos subterráneos.",
+        "Línea A: coge el metro dirección Battistini.",
+        "Bájate en Ottaviano (6 paradas desde Termini): la mejor para Plaza de San Pedro / Basílica y Museos Vaticanos (8–10 min andando a la entrada de los museos).",
+      ],
+    },
+    {
+      id: "popolo-casa",
+      title: "Piazza del Popolo → casa (paso a paso)",
+      subtitle: "Vuelta a Via dei Capocci, 86",
+      steps: [
+        "Entra al metro en Flaminio (línea A, naranja), justo al lado de Piazza del Popolo. Pasa el móvil o la tarjeta por el torno.",
+        "Línea A: súbete dirección Anagnina.",
+        "Viaja 4 paradas y bájate en Termini.",
+        "No hagas transbordo a la línea B: sal a pie de Termini. ~7–8 min / ~600 m bajando por Via Cavour y girando a Via dei Capocci, 86. Es la opción más rápida.",
+      ],
     },
   ],
 };

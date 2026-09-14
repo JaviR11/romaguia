@@ -26,6 +26,7 @@
   let activeTab = "inicio";
   let foodFilter = "restaurants";
   let hideVisited = false;
+  let onlyEssentials = false;
 
   const VISITED_KEY = "romaguia-visited-v1";
   const CHOSEN_KEY = "romaguia-food-chosen-v1";
@@ -175,6 +176,19 @@
         ${day && day.foodWarning ? `<p class="text-sm mt-3 p-3 rounded-xl bg-star/15 border border-star/20">${escapeHtml(day.foodWarning)}</p>` : ""}
         ${ticketBlock}
         ${stopBlock}
+      </section>`;
+  }
+
+  function renderInstallBlock() {
+    return `
+      <section class="p-5 rounded-2xl bg-white/80 border border-ink/5">
+        <h2 class="font-display text-xl">Añadir a la pantalla de inicio</h2>
+        <p class="text-sm text-ink/70 mt-2">Así la abres como una app, sin buscar el enlace.</p>
+        <ul class="mt-3 space-y-2 text-sm text-ink/80 leading-relaxed list-disc pl-5">
+          <li><span class="font-semibold">Android (Chrome):</span> menú ⋮ → “Añadir a pantalla de inicio” / “Instalar app”.</li>
+          <li><span class="font-semibold">iPhone (Safari):</span> compartir □↑ → “Añadir a pantalla de inicio”.</li>
+        </ul>
+        <p class="text-xs text-ink/50 mt-3">URL: https://javir11.github.io/romaguia/</p>
       </section>`;
   }
 
@@ -377,14 +391,14 @@
     const { done, total } = dayProgress(day);
     const sections = day.sections
       .map((sec) => {
-        const stops = hideVisited
-          ? sec.stops.filter((s) => !isVisited(s.id))
-          : sec.stops.slice();
+        let stops = sec.stops.slice();
+        if (hideVisited) stops = stops.filter((s) => !isVisited(s.id));
+        if (onlyEssentials) stops = stops.filter((s) => (s.stars || 0) >= 3);
         if (!stops.length) {
           return `
             <section class="mb-6">
               <h2 class="text-xs font-bold uppercase tracking-widest text-porphyry mb-4">${escapeHtml(sec.label)}</h2>
-              <p class="text-sm text-ink/55 pl-1">Todo visitado en este tramo.</p>
+              <p class="text-sm text-ink/55 pl-1">Nada que mostrar con estos filtros.</p>
             </section>`;
         }
         return `
@@ -403,11 +417,18 @@
           <h2 class="font-display text-2xl text-ink">${escapeHtml(day.label)}</h2>
           <p class="text-porphyry font-medium">${escapeHtml(day.subtitle)}</p>
           <p class="text-sm mt-2 text-ink/60">${done} / ${total} visitados</p>
-          <button type="button" data-toggle-pending class="mt-3 w-full min-h-[48px] rounded-2xl text-sm font-semibold border ${
-            hideVisited
-              ? "bg-porphyry text-white border-porphyry"
-              : "bg-white text-ink border-ink/15"
-          }">${hideVisited ? "Mostrando solo pendientes" : "Solo pendientes"}</button>
+          <div class="flex flex-col gap-2 mt-3">
+            <button type="button" data-toggle-pending class="w-full min-h-[48px] rounded-2xl text-sm font-semibold border ${
+              hideVisited
+                ? "bg-porphyry text-white border-porphyry"
+                : "bg-white text-ink border-ink/15"
+            }">${hideVisited ? "Mostrando solo pendientes" : "Solo pendientes"}</button>
+            <button type="button" data-toggle-essentials class="w-full min-h-[48px] rounded-2xl text-sm font-semibold border ${
+              onlyEssentials
+                ? "bg-star text-white border-star"
+                : "bg-white text-ink border-ink/15"
+            }">${onlyEssentials ? "Mostrando solo ★★★" : "Solo ★★★"}</button>
+          </div>
           ${day.note ? `<p class="text-[15px] leading-relaxed text-ink/75 mt-3">${escapeHtml(day.note)}</p>` : ""}
           ${day.foodWarning ? `<p class="text-sm mt-3 p-4 rounded-2xl bg-star/15 text-ink border border-star/20">${escapeHtml(day.foodWarning)}</p>` : ""}
         </header>
@@ -444,6 +465,7 @@
     return `
       <div class="space-y-8">
         ${renderHoyWidget()}
+        ${renderInstallBlock()}
         ${renderPocketKit()}
         <section>
           <h2 class="font-display text-xl mb-3">Entradas</h2>
@@ -697,6 +719,27 @@
       )
       .join("");
 
+    const routes = (GUIDE.metroRoutes || [])
+      .map(
+        (r) => `
+        <article class="mb-5 p-5 rounded-2xl bg-white/80 border border-ink/5">
+          <h3 class="font-semibold text-lg text-porphyry">${escapeHtml(r.title)}</h3>
+          ${r.subtitle ? `<p class="text-sm text-ink/60 mt-1">${escapeHtml(r.subtitle)}</p>` : ""}
+          <ol class="mt-4 space-y-3 list-none p-0 m-0">
+            ${(r.steps || [])
+              .map(
+                (step, i) => `
+              <li class="flex gap-3">
+                <span class="shrink-0 w-8 h-8 rounded-full bg-porphyry text-white text-sm font-bold flex items-center justify-center">${i + 1}</span>
+                <p class="text-[15px] leading-relaxed text-ink/85 pt-1">${escapeHtml(step)}</p>
+              </li>`
+              )
+              .join("")}
+          </ol>
+        </article>`
+      )
+      .join("");
+
     return `
       <div class="space-y-8">
         <section>
@@ -715,8 +758,12 @@
           <p class="text-sm mt-3 p-3 rounded-xl bg-star/10">${escapeHtml(GUIDE.days.find((d) => d.id === "sabado").note)}</p>
         </section>
         <section>
-          <h2 class="font-display text-xl mb-3">Metro desde casa</h2>
+          <h2 class="font-display text-xl mb-3">Metro cercano y cómo llegar</h2>
           <ul class="list-none p-0">${metro}</ul>
+        </section>
+        <section>
+          <h2 class="font-display text-xl mb-3">Rutas paso a paso</h2>
+          ${routes}
         </section>
       </div>`;
   }
@@ -734,6 +781,8 @@
 
   function renderMain() {
     headerDates.textContent = GUIDE.meta.dates;
+    const homeBtn = document.getElementById("home-maps-btn");
+    if (homeBtn && GUIDE.meta.homeMaps) homeBtn.href = GUIDE.meta.homeMaps;
     renderTabs();
 
     if (activeTab === "inicio") main.innerHTML = renderInicio();
@@ -780,6 +829,13 @@
     document.querySelectorAll("[data-toggle-pending]").forEach((btn) => {
       btn.addEventListener("click", () => {
         hideVisited = !hideVisited;
+        renderMain();
+      });
+    });
+
+    document.querySelectorAll("[data-toggle-essentials]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        onlyEssentials = !onlyEssentials;
         renderMain();
       });
     });
