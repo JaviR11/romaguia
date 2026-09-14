@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#6E2C4A" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="description" content="Guía de viaje a Roma · 15–19 sep 2026" />
+    <title>Roma · Guía 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              marble: "#EEEAEE",
+              ink: "#1A1F2B",
+              porphyry: "#6E2C4A",
+              maps: "#2F5D50",
+              star: "#A67C2D",
+            },
+            fontFamily: {
+              display: ["Fraunces", "Georgia", "serif"],
+              sans: ["Figtree", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        overscroll-behavior-y: none;
+      }
+      .tab-scroll {
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .tab-scroll > * {
+        scroll-snap-align: start;
+      }
+      .timeline-line {
+        background: linear-gradient(
+          to bottom,
+          #6e2c4a 0%,
+          #6e2c4a 70%,
+          transparent 100%
+        );
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-marble text-ink font-sans antialiased min-h-screen">
+    <header
+      class="sticky top-0 z-50 bg-marble/95 backdrop-blur-md border-b border-ink/10 pt-[env(safe-area-inset-top)]"
+    >
+      <div class="px-5 pt-4 pb-2">
+        <p class="text-xs font-semibold uppercase tracking-widest text-porphyry/80">
+          Guía de viaje
+        </p>
+        <h1 class="font-display text-3xl text-ink leading-tight">Roma</h1>
+        <p class="text-sm text-ink/70 mt-0.5" id="header-dates">15–19 sep 2026</p>
+      </div>
+      <nav
+        class="tab-scroll flex gap-2 overflow-x-auto px-4 pb-3 touch-pan-x"
+        id="tab-nav"
+        aria-label="Secciones de la guía"
+      ></nav>
+    </header>
+
+    <main
+      id="app-main"
+      class="px-4 pb-[max(2rem,env(safe-area-inset-bottom))] pt-2 max-w-lg mx-auto"
+    ></main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
