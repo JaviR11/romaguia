@@ -487,10 +487,7 @@
     const apt = a.apartment;
     return `
       <section class="p-5 rounded-2xl bg-white border border-maps/30 shadow-sm">
-        <div class="flex items-start justify-between gap-3">
-          <h2 class="font-display text-xl">Códigos de acceso</h2>
-          <button type="button" data-access-lock class="text-xs font-semibold uppercase tracking-wide text-ink/50 min-h-[44px] px-2">Ocultar</button>
-        </div>
+        <h2 class="font-display text-xl">Códigos de acceso</h2>
         <article class="mt-4 p-4 rounded-2xl bg-maps/5 border border-maps/15">
           <h3 class="font-semibold text-porphyry">${escapeHtml(b.title)}</h3>
           <p class="text-3xl font-bold tabular-nums tracking-wider mt-2">${escapeHtml(b.code)}🔑</p>
@@ -504,6 +501,10 @@
           <p class="text-3xl font-bold tabular-nums tracking-wider mt-2">${escapeHtml(apt.code)}🔑</p>
           <p class="text-sm text-ink/60 mt-2">Mismo gesto: código + 🔑 + abrir.</p>
         </article>
+        <button type="button" data-access-lock class="mt-4 w-full min-h-[52px] rounded-2xl border-2 border-ink/20 bg-marble text-ink font-semibold">
+          Ocultar códigos
+        </button>
+        <p class="text-xs text-ink/50 mt-2 text-center">Para verlos otra vez tendrás que poner el código.</p>
       </section>`;
   }
 
