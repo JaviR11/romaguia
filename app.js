@@ -30,6 +30,24 @@
 
   const VISITED_KEY = "romaguia-visited-v1";
   const CHOSEN_KEY = "romaguia-food-chosen-v1";
+  const ACCESS_KEY = "romaguia-access-unlocked-v1";
+
+  function isAccessUnlocked() {
+    try {
+      return localStorage.getItem(ACCESS_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function setAccessUnlocked(ok) {
+    try {
+      if (ok) localStorage.setItem(ACCESS_KEY, "1");
+      else localStorage.removeItem(ACCESS_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
 
   function loadVisited() {
     try {
@@ -437,6 +455,79 @@
       </div>`;
   }
 
+  function renderAccessGate() {
+    const a = GUIDE.access;
+    if (!a) return "";
+
+    if (!isAccessUnlocked()) {
+      return `
+        <section class="p-5 rounded-2xl bg-white border border-ink/10 shadow-sm">
+          <h2 class="font-display text-xl">Códigos de acceso</h2>
+          <p class="text-sm text-ink/70 mt-2">Protegido. Introduce el código para ver la puerta del edificio y el apartamento.</p>
+          <form id="access-unlock-form" class="mt-4 space-y-3" autocomplete="off">
+            <label class="block text-sm font-medium text-ink/80" for="access-pin">Código</label>
+            <input
+              id="access-pin"
+              name="pin"
+              type="password"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="8"
+              class="w-full min-h-[52px] px-4 rounded-2xl border border-ink/20 bg-marble text-lg tracking-widest"
+              placeholder="••••"
+              required
+            />
+            <p id="access-pin-error" class="text-sm text-porphyry hidden">Código incorrecto.</p>
+            <button type="submit" class="w-full min-h-[52px] rounded-2xl bg-porphyry text-white font-semibold">Desbloquear</button>
+          </form>
+        </section>`;
+    }
+
+    const b = a.building;
+    const apt = a.apartment;
+    return `
+      <section class="p-5 rounded-2xl bg-white border border-maps/30 shadow-sm">
+        <div class="flex items-start justify-between gap-3">
+          <h2 class="font-display text-xl">Códigos de acceso</h2>
+          <button type="button" data-access-lock class="text-xs font-semibold uppercase tracking-wide text-ink/50 min-h-[44px] px-2">Ocultar</button>
+        </div>
+        <article class="mt-4 p-4 rounded-2xl bg-maps/5 border border-maps/15">
+          <h3 class="font-semibold text-porphyry">${escapeHtml(b.title)}</h3>
+          <p class="text-3xl font-bold tabular-nums tracking-wider mt-2">${escapeHtml(b.code)}🔑</p>
+          <ol class="mt-3 space-y-2 list-decimal pl-5 text-[15px] text-ink/85 leading-relaxed">
+            ${b.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+          </ol>
+        </article>
+        <article class="mt-3 p-4 rounded-2xl bg-maps/5 border border-maps/15">
+          <h3 class="font-semibold text-porphyry">${escapeHtml(apt.title)} ${escapeHtml(apt.number)}</h3>
+          <p class="text-sm text-ink/70 mt-1">${escapeHtml(apt.where)}</p>
+          <p class="text-3xl font-bold tabular-nums tracking-wider mt-2">${escapeHtml(apt.code)}🔑</p>
+          <p class="text-sm text-ink/60 mt-2">Mismo gesto: código + 🔑 + abrir.</p>
+        </article>
+      </section>`;
+  }
+
+  function renderFlights() {
+    const f = GUIDE.flights;
+    if (!f) return "";
+    return `
+      <section>
+        <h2 class="font-display text-xl mb-3">Vuelos</h2>
+        <ul class="space-y-2 list-none p-0 m-0">
+          <li class="p-4 rounded-2xl bg-white/80 border border-ink/5">
+            <p class="text-xs font-bold uppercase tracking-wide text-porphyry">${escapeHtml(f.outbound.label)} · ${escapeHtml(f.outbound.date)}</p>
+            <p class="font-semibold text-lg mt-1 tabular-nums">${escapeHtml(f.outbound.summary)}</p>
+            <p class="text-sm text-ink/60 mt-1">${escapeHtml(f.outbound.from)} ${escapeHtml(f.outbound.dep)} → ${escapeHtml(f.outbound.to)} ${escapeHtml(f.outbound.arr)}</p>
+          </li>
+          <li class="p-4 rounded-2xl bg-white/80 border border-ink/5">
+            <p class="text-xs font-bold uppercase tracking-wide text-porphyry">${escapeHtml(f.return.label)} · ${escapeHtml(f.return.date)}</p>
+            <p class="font-semibold text-lg mt-1 tabular-nums">${escapeHtml(f.return.summary)}</p>
+            <p class="text-sm text-ink/60 mt-1">${escapeHtml(f.return.from)} ${escapeHtml(f.return.dep)} → ${escapeHtml(f.return.to)} ${escapeHtml(f.return.arr)}</p>
+          </li>
+        </ul>
+      </section>`;
+  }
+
   function renderInicio() {
     const tickets = GUIDE.tickets
       .map(
@@ -465,6 +556,8 @@
     return `
       <div class="space-y-8">
         ${renderHoyWidget()}
+        ${renderFlights()}
+        ${renderAccessGate()}
         ${renderInstallBlock()}
         ${renderPocketKit()}
         <section>
@@ -892,6 +985,33 @@
         } catch {
           btn.textContent = "No se pudo copiar";
         }
+      });
+    });
+
+    const form = document.getElementById("access-unlock-form");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("access-pin");
+        const err = document.getElementById("access-pin-error");
+        const pin = (input && input.value ? input.value.trim() : "");
+        if (pin === (GUIDE.access && GUIDE.access.unlockPin)) {
+          setAccessUnlocked(true);
+          renderMain();
+        } else if (err) {
+          err.classList.remove("hidden");
+          if (input) {
+            input.value = "";
+            input.focus();
+          }
+        }
+      });
+    }
+
+    document.querySelectorAll("[data-access-lock]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setAccessUnlocked(false);
+        renderMain();
       });
     });
   }

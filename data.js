@@ -13,6 +13,46 @@ const GUIDE = {
     homeMaps: MAPS.home,
   },
 
+  flights: {
+    outbound: {
+      date: "15 sep 2026",
+      label: "Ida",
+      from: "VAL",
+      to: "ROM",
+      dep: "15:25",
+      arr: "17:30",
+      summary: "VAL 15:25 → ROM 17:30",
+    },
+    return: {
+      date: "19 sep 2026",
+      label: "Vuelta",
+      from: "ROM",
+      to: "VAL",
+      dep: "12:35",
+      arr: "14:45",
+      summary: "ROM 12:35 → VAL 14:45",
+    },
+  },
+
+  access: {
+    unlockPin: "4933",
+    building: {
+      title: "Puerta principal del edificio",
+      code: "2436",
+      steps: [
+        "Escribe el código",
+        "Pulsa la tecla de la llave 🔑",
+        "Gira la manilla y abre la puerta",
+      ],
+    },
+    apartment: {
+      title: "Apartamento",
+      number: "5",
+      where: "Primer piso, puerta de la izquierda",
+      code: "2588",
+    },
+  },
+
   starLegend: [
     { level: 3, label: "IMPRESCINDIBLE", desc: "Intentaría verlo sí o sí." },
     { level: 2, label: "MUY RECOMENDABLE", desc: "Merece mucho la pena, pero se puede sacrificar." },
@@ -118,7 +158,7 @@ const GUIDE = {
               time: "17:30",
               title: "Aterrizaje en Roma",
               stars: 0,
-              note: "Leonardo Express recomendado: tren 18:08 Fiumicino → Termini 18:40 → casa ~18:51.",
+              note: "Vuelo VAL 15:25 → ROM 17:30. Leonardo Express recomendado: tren 18:08 Fiumicino → Termini 18:40 → casa ~18:51.",
             },
             {
               id: "alojamiento",
@@ -126,7 +166,7 @@ const GUIDE = {
               title: "Llegada al alojamiento en Monti",
               stars: 0,
               mapsUrl: MAPS.home,
-              note: "Via dei Capocci, 86",
+              note: "Via dei Capocci, 86. Apartamento 5 (códigos de acceso en Inicio, protegidos).",
             },
             {
               id: "cena-monti",
@@ -876,7 +916,7 @@ const GUIDE = {
               time: "Mañana",
               title: "Mañana libre según vuelo",
               stars: 0,
-              note: "Vuelo 12:35. Tren recomendado: salir casa ~09:10 → Termini 09:25 → tren 09:35 → Fiumicino 10:07.",
+              note: "Vuelo ROM 12:35 → VAL 14:45. Tren recomendado: salir casa ~09:10 → Termini 09:25 → tren 09:35 → Fiumicino 10:07.",
             },
             {
               id: "santa-maria-maggiore-sab",
@@ -1510,7 +1550,7 @@ const GUIDE = {
     departure: {
       date: "Sábado 19",
       label: "Vuelta (casa → Termini → Fiumicino)",
-      flight: "Vuelo 12:35",
+      flight: "Vuelo ROM 12:35 → VAL 14:45",
       options: [
         {
           leaveHome: "09:10–09:15",
